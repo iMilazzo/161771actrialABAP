@@ -1,0 +1,67 @@
+managed implementation in class ZBP_R_54ACONN unique;
+strict ( 2 );
+with draft;
+define behavior for ZR_54ACONN alias Connections
+persistent table z54aconn
+draft table z54aconn_d
+etag master LocalLastChangedAt
+lock master total etag LastChangedAt
+authorization master ( global )
+
+{
+  field ( readonly )
+  Uuid,
+  CityFrom, CityTo,
+  CountryFrom, CountryTo,
+  LocalCreatedBy,
+  LocalCreatedAt,
+  LocalLastChangedBy,
+  LocalLastChangedAt,
+  LastChangedAt;
+
+  field ( numbering : managed )
+  Uuid;
+
+
+  create;
+  update;
+  delete;
+
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Edit;
+  draft action Resume;
+  draft determine action Prepare
+  {
+
+    validation checkSemanticKey;
+    validation airlineExists;
+    validation checkAirports;
+    determination getCities;
+
+  }
+
+  validation checkSemanticKey on save { create; update; }
+  validation airlineExists on save { create; update; field CarrierId; }
+  validation checkAirports on save { create; update; }
+
+  determination getCities on save { field AirportFromID, AirportToID; }
+
+  mapping for z54aconn
+    {
+      Uuid               = uuid;
+      CarrierId          = carrier_id;
+      ConnectionId       = connection_id;
+      AirportFromId      = airport_from_id;
+      CityFrom           = city_from;
+      CountryFrom        = country_from;
+      AirportToId        = airport_to_id;
+      CityTo             = city_to;
+      CountryTo          = country_to;
+      LocalCreatedBy     = local_created_by;
+      LocalCreatedAt     = local_created_at;
+      LocalLastChangedBy = local_last_changed_by;
+      LocalLastChangedAt = local_last_changed_at;
+      LastChangedAt      = last_changed_at;
+    }
+}

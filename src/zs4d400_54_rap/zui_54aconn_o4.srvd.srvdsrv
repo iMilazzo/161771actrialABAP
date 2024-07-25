@@ -1,0 +1,11 @@
+@EndUserText: {
+  label: 'Service Definition for ZC_54ACONN'
+}
+@ObjectModel: {
+  leadingEntity: {
+    name: 'ZC_54ACONN'
+  }
+}
+define service ZUI_54ACONN_O4 provider contracts odata_v4_ui {
+  expose ZC_54ACONN as Connections;
+}

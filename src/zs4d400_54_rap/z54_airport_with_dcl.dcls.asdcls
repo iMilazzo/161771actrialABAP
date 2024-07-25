@@ -1,0 +1,11 @@
+@EndUserText.label: 'Airport CDS view with Access Control'
+@MappingRole: true
+define role Z54_AIRPORT_WITH_DCL {
+    grant
+        select
+            on
+                Z54_AIRPORTS_WITH_DCL
+                    where
+                        ( CountryCode ) = aspect pfcg_auth( /DMO/TRVL, /DMO/CNTRY, ACTVT = '03' );
+                        
+}

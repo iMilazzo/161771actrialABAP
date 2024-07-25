@@ -1,0 +1,11 @@
+@EndUserText: {
+  label: 'Service Definition for ZC_54AFLG'
+}
+@ObjectModel: {
+  leadingEntity: {
+    name: 'ZC_54AFLG'
+  }
+}
+define service ZUI_54AFLG_O4 provider contracts odata_v4_ui {
+  expose ZC_54AFLG as Z54_R_Flight;
+}
