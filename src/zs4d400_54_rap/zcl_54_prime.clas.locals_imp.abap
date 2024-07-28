@@ -4,6 +4,7 @@
 CLASS lcl_prime_number DEFINITION.
   PUBLIC SECTION.
     DATA start TYPE i VALUE 2.
+    METHODS prepare_prime.
     METHODS is_prime_recursive IMPORTING number      TYPE i
                                RETURNING VALUE(bool) TYPE abap_bool.
     METHODS is_prime_loop IMPORTING iv_number   TYPE i
@@ -13,24 +14,29 @@ CLASS lcl_prime_number DEFINITION.
 ENDCLASS.
 
 CLASS lcl_prime_number IMPLEMENTATION.
+  METHOD prepare_prime.
+    start = 2.
+  ENDMETHOD.
+
   METHOD is_prime_recursive.
 
     "corner cases
-    IF number = 0 OR number = 1 .
-      bool = abap_false.
-      EXIT.
+    IF number = 1 .
+      RETURN abap_false.
+    ENDIF.
+
+    IF number = 2 .
+      RETURN abap_true.
     ENDIF.
 
     "Checking Prime
     IF number = start.
-      bool = abap_true.
-      EXIT.
+      RETURN abap_true.
     ENDIF.
 
     "base cases
     IF number MOD start = 0.
-      bool = abap_false.
-      EXIT.
+      RETURN abap_false.
     ENDIF.
 
     start += 1.
@@ -39,7 +45,7 @@ CLASS lcl_prime_number IMPLEMENTATION.
       EXIT.
     ENDIF.
 
-    bool = is_prime_recursive( number ).
+    RETURN is_prime_recursive( number ).
 
   ENDMETHOD.
 
@@ -53,13 +59,14 @@ CLASS lcl_prime_number IMPLEMENTATION.
       RETURN abap_true.
     ENDIF.
 
-    DATA(x) = iv_number - 1.
-    WHILE x < iv_number.
-      IF sy-index > 1.
-        IF ( iv_number MOD sy-index  ) = 0.
-          RETURN abap_false.
-        ENDIF.
+    DATA(x) = 2.
+    DATA(y) = iv_number.
+
+    WHILE x < y.
+      IF ( y MOD x ) = 0.
+        RETURN abap_false.
       ENDIF.
+      x += 1.
     ENDWHILE..
 
     bool = abap_true.

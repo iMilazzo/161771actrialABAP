@@ -38,7 +38,7 @@ CLASS lcl_car_Rental DEFINITION.
              value TYPE c LENGTH 20,
            END OF ts_info,
            tt_Info TYPE SORTED TABLE OF ts_info WITH UNIQUE KEY name.
-
+    DATA city TYPE string.
     METHODS get_information RETURNING VALUE(rt_details) TYPE tt_info.
 ENDCLASS.
 
